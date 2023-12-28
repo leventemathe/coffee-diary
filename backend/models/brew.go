@@ -12,9 +12,9 @@ type Brew struct {
 	CoffeeMaker   CoffeeMaker `gorm:"not null;default:null"`
 	GrinderID     uint        `gorm:"not null;default:null;index"`
 	Grinder       Grinder     `gorm:"not null;default:null"`
-	Input         uint
-	Output        uint
-	Time          uint
+	Input         uint        `gorm:"not null;default:null"`
+	Output        uint        `gorm:"not null;default:null"`
+	Time          uint        `gorm:"not null;default:null"`
 	GrindSetting  float32
 	Temperature   *float32
 	Pressure      *float32
