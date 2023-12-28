@@ -13,5 +13,9 @@ func (app *application) createRoutes() {
 
 	app.echo.GET("/v1/brew", c.GetBrews)
 	app.echo.POST("/v1/brew", c.CreateBrew)
-	app.echo.DELETE("/v1/brew/:id", c.Deleterew)
+	app.echo.DELETE("/v1/brew/:id", c.DeleteBrew)
+
+	app.echo.GET("/v1/coffee-maker", c.GetCoffeeMakers)
+	app.echo.POST("/v1/coffee-maker", c.CreateCoffeeMakers)
+	app.echo.DELETE("/v1/coffee-maker/:id", c.DeleteCoffeeMakers)
 }

@@ -34,7 +34,7 @@ func (c *container) CreateBrew(ctx echo.Context) error {
 	return ctx.JSON(http.StatusCreated, brew)
 }
 
-func (c *container) Deleterew(ctx echo.Context) error {
+func (c *container) DeleteBrew(ctx echo.Context) error {
 	id := ctx.Param("id")
 
 	result := c.db.Delete(&models.Brew{}, id)

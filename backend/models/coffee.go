@@ -22,7 +22,7 @@ const (
 
 type Coffee struct {
 	gorm.Model
-	Name         string `gorm:"not null;default:null"`
+	Name         string `gorm:"not null;default:null;unique"`
 	Description  *string
 	Region       *string
 	RoastLevel   *RoastLevel

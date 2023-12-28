@@ -8,8 +8,6 @@ services:
       POSTGRES_USER: coffee-diary
       POSTGRES_PASSWORD: password
       PGDATA: /data/postgres
-    volumes:
-       - postgres:/data/postgres
     ports:
       - "5433:5432"
     restart: unless-stopped
