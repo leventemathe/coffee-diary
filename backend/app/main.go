@@ -10,7 +10,7 @@ import (
 func main() {
 	dsn := "host=localhost user=coffee-diary password=password dbname=coffee-diary port=5433 sslmode=disable"
 	db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	db.AutoMigrate(&models.Coffee{}, &models.Brew{}, &models.CoffeeMaker{})
+	db.AutoMigrate(&models.Coffee{}, &models.Brew{}, &models.CoffeeMaker{}, &models.Grinder{})
 
 	e := echo.New()
 

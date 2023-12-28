@@ -18,7 +18,7 @@ func (c *container) GetCoffeeMakers(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, &coffeeMakers)
 }
 
-func (c *container) CreateCoffeeMakers(ctx echo.Context) error {
+func (c *container) CreateCoffeeMaker(ctx echo.Context) error {
 	coffeeMaker := new(models.CoffeeMaker)
 	if err := ctx.Bind(coffeeMaker); err != nil {
 		return err
@@ -34,7 +34,7 @@ func (c *container) CreateCoffeeMakers(ctx echo.Context) error {
 	return ctx.JSON(http.StatusCreated, coffeeMaker)
 }
 
-func (c *container) DeleteCoffeeMakers(ctx echo.Context) error {
+func (c *container) DeleteCoffeeMaker(ctx echo.Context) error {
 	id := ctx.Param("id")
 
 	result := c.db.Delete(&models.CoffeeMaker{}, id)

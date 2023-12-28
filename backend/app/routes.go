@@ -4,6 +4,7 @@ import (
 	"coffee-diary.io/handlers"
 )
 
+// TODO: central error handling + error handling in handlers
 func (app *application) createRoutes() {
 	c := handlers.NewContainer(app.db)
 
@@ -16,6 +17,10 @@ func (app *application) createRoutes() {
 	app.echo.DELETE("/v1/brew/:id", c.DeleteBrew)
 
 	app.echo.GET("/v1/coffee-maker", c.GetCoffeeMakers)
-	app.echo.POST("/v1/coffee-maker", c.CreateCoffeeMakers)
-	app.echo.DELETE("/v1/coffee-maker/:id", c.DeleteCoffeeMakers)
+	app.echo.POST("/v1/coffee-maker", c.CreateCoffeeMaker)
+	app.echo.DELETE("/v1/coffee-maker/:id", c.DeleteCoffeeMaker)
+
+	app.echo.GET("/v1/grinder", c.GetGrinders)
+	app.echo.POST("/v1/grinder", c.CreateGrinder)
+	app.echo.DELETE("/v1/grinder/:id", c.DeleteGrinder)
 }
