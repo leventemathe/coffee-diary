@@ -1,7 +1,5 @@
 package models
 
-import "gorm.io/gorm"
-
 type CoffeeMakerType string
 
 const (
@@ -13,8 +11,8 @@ const (
 )
 
 type CoffeeMaker struct {
-	gorm.Model
-	Name        string `gorm:"not null;default:null;unique"`
-	Description *string
-	Type        *CoffeeMakerType
+	model
+	Name        string `gorm:"not null;default:null;unique" json:"name"`
+	Description *string `json:"description"`
+	Type        *CoffeeMakerType `json:"type"`
 }

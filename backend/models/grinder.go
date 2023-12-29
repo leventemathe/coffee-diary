@@ -1,9 +1,7 @@
 package models
 
-import "gorm.io/gorm"
-
 type Grinder struct {
-	gorm.Model
-	Name        string `gorm:"not null;default:null;unique"`
-	Description *string
+	model
+	Name        string `gorm:"not null;default:null;unique" json:"name"`
+	Description *string `json:"description"`
 }

@@ -2,11 +2,24 @@ import { ActivityIndicator, FlatList, Text, View } from "react-native";
 
 import { useBrews } from "@/queries/useBrews";
 
-// TODO: types
-function BrewListItem({ name }: any) {
+type BrewListItemProps = {
+  coffeeName: string;
+  coffeeMakerName: string;
+  grinderName: string;
+  rating: number;
+  date: Date;
+};
+
+function BrewListItem({
+  coffeeName,
+  coffeeMakerName,
+  grinderName,
+  rating,
+  date,
+}: BrewListItemProps) {
   return (
     <View>
-      <Text>{name}</Text>
+      <Text>{coffeeName}</Text>
     </View>
   );
 }
@@ -14,20 +27,26 @@ function BrewListItem({ name }: any) {
 export function BrewsScreen() {
   const { data: brews, isSuccess, isError } = useBrews();
 
-  console.log("brews: ", brews);
-
   if (isError) {
     // TODO
     console.error("Fetching brews failed...");
   }
 
   if (isSuccess) {
+    const listData: BrewListItemProps[] = brews.map((brew) => ({
+      coffeeName: brew.coffee.name,
+      coffeeMakerName: brew.coffeeMaker.name,
+      grinderName: brew.grinder.name,
+      rating: brew.rating,
+      date: brew.createdAt,
+    }));
+
     return (
       <View>
         <FlatList
-          data={brews}
+          data={listData}
           // TODO: type
-          renderItem={({ name }: any) => <BrewListItem name={name} />}
+          renderItem={({ item }) => <BrewListItem {...item} />}
         />
       </View>
     );

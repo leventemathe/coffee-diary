@@ -1,9 +1,5 @@
 package models
 
-import (
-	"gorm.io/gorm"
-)
-
 type RoastLevel string
 
 const (
@@ -21,10 +17,10 @@ const (
 )
 
 type Coffee struct {
-	gorm.Model
-	Name         string `gorm:"not null;default:null;unique"`
-	Description  *string
-	Region       *string
-	RoastLevel   *RoastLevel
-	RoastProfile *RoastProfile
+	model
+	Name         string `gorm:"not null;default:null;unique" json:"name"`
+	Description  *string `json:"description"`
+	Region       *string `json:"region"`
+	RoastLevel   *RoastLevel `json:"roastLevel"`
+	RoastProfile *RoastProfile `json:"roastProfile"`
 }

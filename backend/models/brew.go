@@ -1,23 +1,20 @@
 package models
 
-import (
-	"gorm.io/gorm"
-)
-
 type Brew struct {
-	gorm.Model
-	CoffeeID      uint        `gorm:"not null;default:null;index"`
-	Coffee        Coffee      `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	CoffeeMakerID uint        `gorm:"not null;default:null;index"`
-	CoffeeMaker   CoffeeMaker `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	GrinderID     uint        `gorm:"not null;default:null;index"`
-	Grinder       Grinder     `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	Input         uint        `gorm:"not null;default:null"`
-	Output        uint        `gorm:"not null;default:null"`
-	Time          uint        `gorm:"not null;default:null"`
-	GrindSetting  float32     `gorm:"not null;default:null"`
-	Temperature   *float32
-	Pressure      *float32
-	Preinfustion  *bool
-	OtherNotes    *string
+	model
+	CoffeeID      uint        `gorm:"not null;default:null;index" json:"coffeeId"`
+	Coffee        Coffee      `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"coffee"`
+	CoffeeMakerID uint        `gorm:"not null;default:null;index" json:"coffeeMakerId"`
+	CoffeeMaker   CoffeeMaker `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"coffeeMaker"`
+	GrinderID     uint        `gorm:"not null;default:null;index" json:"grinderId"`
+	Grinder       Grinder     `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"grinder"`
+	Input         uint        `gorm:"not null;default:null" json:"input"`
+	Output        uint        `gorm:"not null;default:null" json:"output"`
+	Time          uint        `gorm:"not null;default:null" json:"time"`
+	GrindSetting  float32     `gorm:"not null;default:null" json:"grindSetting"`
+	Temperature   *float32 `json:"temperature"`
+	Pressure      *float32 `json:"pressure"`
+	Preinfustion  *bool `json:"preInfusion"`
+	OtherNotes    *string `json:"otherNotes"`
+	Rating float32 `json:"rating"`
 }
