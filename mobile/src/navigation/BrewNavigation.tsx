@@ -2,9 +2,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Pressable } from "react-native";
 
+import { brewRoutes } from "./routes";
+
 import { BrewListScreen } from "@/screens/BrewListScreen";
 import { NewBrewScreen } from "@/screens/NewBrewScreen";
-import { brewRoutes } from "@/utils/routes";
 
 const BrewStack = createNativeStackNavigator();
 

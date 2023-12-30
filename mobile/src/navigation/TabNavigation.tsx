@@ -6,8 +6,8 @@ import { BrewNavigation } from "./BrewNavigation";
 import { CoffeeNavigation } from "./CoffeeNavigation";
 import { ToolNavigation } from "./ToolNavigation";
 
+import { tabRoutes } from "@/navigation/routes";
 import { GetIconProps } from "@/types/Icon";
-import { tabRoutes } from "@/utils/routes";
 
 const Tab = createBottomTabNavigator();
 

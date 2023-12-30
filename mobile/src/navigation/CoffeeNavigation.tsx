@@ -2,9 +2,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Pressable } from "react-native";
 
+import { coffeeRoutes } from "./routes";
+
 import { CoffeeListScreen } from "@/screens/CoffeeListScreen";
 import { NewCoffeeScreen } from "@/screens/NewCoffeeScreen";
-import { coffeeRoutes } from "@/utils/routes";
 
 const CoffeeStack = createNativeStackNavigator();
 

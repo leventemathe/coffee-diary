@@ -1,7 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import { toolRoutes } from "./routes";
+
 import { ToolListScreen } from "@/screens/ToolListScreen";
-import { toolRoutes } from "@/utils/routes";
 
 const ToolStack = createNativeStackNavigator();
 
