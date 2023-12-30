@@ -1,7 +1,7 @@
 import { FlatList, Text, View } from "react-native";
 
 import { Loading } from "@/components/Loading";
-import { useBrews } from "@/queries/useBrews";
+import { useBrews } from "@/queries/brew";
 
 type BrewListItemProps = {
   coffeeName: string;

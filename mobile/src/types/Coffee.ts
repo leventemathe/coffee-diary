@@ -12,11 +12,15 @@ export enum RoastProfile {
   Moka = "moka",
 }
 
-export type Coffee = Model & {
-  id: number;
+export type CreateCoffee = {
   name: string;
   description?: string;
   region?: string;
   roastLevel?: RoastLevel;
-  RoastProfile?: RoastProfile;
+  roastProfile?: RoastProfile;
 };
+
+export type Coffee = Model &
+  CreateCoffee & {
+    id: number;
+  };

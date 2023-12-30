@@ -28,6 +28,7 @@ export function CoffeeNavigation() {
       />
       <CoffeeStack.Screen
         name={coffeeRoutes.newCoffee}
+        // @ts-ignore
         component={NewCoffeeScreen}
         options={{
           title: "New Coffee",
