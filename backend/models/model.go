@@ -2,9 +2,9 @@ package models
 
 import "time"
 
-type model struct {
-		ID          uint       `gorm:"primary_key" json:"id"`
-		CreatedAt   time.Time  `json:"createdAt"`
-		UpdatedAt   time.Time  `json:"updatedAt"`
-		DeletedAt   *time.Time `json:"deletedAt"`
+type Model struct {
+	ID          uint       `gorm:"primarykey" json:"id"`
+	CreatedAt   time.Time  `json:"createdAt"`
+	UpdatedAt   time.Time  `json:"updatedAt"`
+	DeletedAt   *time.Time `json:"deletedAt"`
 }

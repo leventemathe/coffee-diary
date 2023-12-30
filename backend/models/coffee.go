@@ -17,7 +17,7 @@ const (
 )
 
 type Coffee struct {
-	model
+	Model
 	Name         string `gorm:"not null;default:null;unique" json:"name"`
 	Description  *string `json:"description"`
 	Region       *string `json:"region"`

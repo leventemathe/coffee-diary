@@ -11,7 +11,7 @@ const (
 )
 
 type CoffeeMaker struct {
-	model
+	Model
 	Name        string `gorm:"not null;default:null;unique" json:"name"`
 	Description *string `json:"description"`
 	Type        *CoffeeMakerType `json:"type"`

@@ -1,7 +1,7 @@
 package models
 
 type Brew struct {
-	model
+	Model
 	CoffeeID      uint        `gorm:"not null;default:null;index" json:"coffeeId"`
 	Coffee        Coffee      `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"coffee"`
 	CoffeeMakerID uint        `gorm:"not null;default:null;index" json:"coffeeMakerId"`
