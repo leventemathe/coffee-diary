@@ -1,9 +1,9 @@
 import { Text, View } from "react-native";
 
-export function CoffeesScreen() {
+export function NewCoffeeScreen() {
   return (
     <View>
-      <Text>Coffees</Text>
+      <Text>New Coffee</Text>
     </View>
   );
 }

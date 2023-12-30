@@ -24,7 +24,7 @@ function BrewListItem({
   );
 }
 
-export function BrewsScreen() {
+export function BrewListScreen() {
   const { data: brews, isSuccess, isError } = useBrews();
 
   if (isError) {
