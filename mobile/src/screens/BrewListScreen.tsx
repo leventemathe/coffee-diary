@@ -1,5 +1,6 @@
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 
+import { Loading } from "@/components/Loading";
 import { useBrews } from "@/queries/useBrews";
 
 type BrewListItemProps = {
@@ -25,11 +26,11 @@ function BrewListItem({
 }
 
 export function BrewListScreen() {
-  const { data: brews, isSuccess, isError } = useBrews();
+  const { data: brews, isSuccess, error } = useBrews();
 
-  if (isError) {
+  if (error) {
     // TODO
-    console.error("Fetching brews failed...");
+    console.error("Fetching brews failed: ", error);
   }
 
   if (isSuccess) {
@@ -52,9 +53,5 @@ export function BrewListScreen() {
     );
   }
 
-  return (
-    <View>
-      <ActivityIndicator />
-    </View>
-  );
+  return <Loading />;
 }
