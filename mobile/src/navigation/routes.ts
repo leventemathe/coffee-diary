@@ -16,4 +16,6 @@ export const brewRoutes = {
 
 export const toolRoutes = {
   toolList: "ToolList",
+  newCoffeeMaker: "NewCoffeeMaker",
+  newGrinder: "NewGrinder",
 };

@@ -71,12 +71,11 @@ export function CoffeeListScreen() {
 
     return (
       <>
-        <View>
-          <FlatList
-            data={listItems}
-            renderItem={({ item }) => <CoffeeListItem {...item} />}
-          />
-        </View>
+        <FlatList
+          style={styles.list}
+          data={listItems}
+          renderItem={({ item }) => <CoffeeListItem {...item} />}
+        />
       </>
     );
   }
@@ -85,13 +84,16 @@ export function CoffeeListScreen() {
 }
 
 const styles = StyleSheet.create({
-  listItem: {
+  list: {
     padding: 12,
+  },
+  listItem: {
     borderBottomColor: "lightgrey",
     borderBottomWidth: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingVertical: 12,
   },
   listItemContent: {
     gap: 4,

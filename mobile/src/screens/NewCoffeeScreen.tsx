@@ -34,8 +34,6 @@ export function NewCoffeeScreen({ navigation }: BottomTabBarProps) {
     }
   }
 
-  console.log("errors: ", errors);
-
   return (
     <Form>
       <FormRow>
