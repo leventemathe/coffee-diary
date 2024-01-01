@@ -8,8 +8,13 @@ export enum CoffeeMakerType {
   Other = "other_maker",
 }
 
-export type CoffeeMaker = Model & {
+export type CreateCoffeeMaker = {
   name: string;
   description?: string;
   type?: CoffeeMakerType;
 };
+
+export type CoffeeMaker = Model &
+  CreateCoffeeMaker & {
+    id: number;
+  };
