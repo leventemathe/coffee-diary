@@ -8,8 +8,8 @@ export function useCreateCoffeeMaker() {
   });
 }
 
-export function useDeleteCoffeeMaker(id: number) {
+export function useDeleteCoffeeMaker() {
   return useMutation({
-    mutationFn: async () => deleteCoffeeMaker(id),
+    mutationFn: deleteCoffeeMaker,
   });
 }

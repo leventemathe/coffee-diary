@@ -8,8 +8,8 @@ export function useCreateGrinder() {
   });
 }
 
-export function useDeleteGrinder(id: number) {
+export function useDeleteGrinder() {
   return useMutation({
-    mutationFn: async () => deleteGrinder(id),
+    mutationFn: deleteGrinder,
   });
 }

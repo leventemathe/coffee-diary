@@ -1,6 +1,6 @@
-import { MaterialIcons } from "@expo/vector-icons";
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 
+import { DeleteButton } from "@/components/DeleteButton";
 import { Loading } from "@/components/Loading";
 import { useDeleteCoffee } from "@/mutations/coffee";
 import { useCoffees } from "@/queries/coffee";
@@ -27,12 +27,12 @@ function CoffeeListItemComponent({
   roastProfile,
   isLast,
 }: CoffeeListItemProps) {
-  const { mutateAsync } = useDeleteCoffee(id);
+  const { mutateAsync: deleteCoffee } = useDeleteCoffee(id);
   const { refetch: refetchCoffees } = useCoffees();
 
   async function handleDelete() {
     try {
-      await mutateAsync();
+      await deleteCoffee();
       await refetchCoffees();
     } catch (e) {
       // TODO
@@ -50,9 +50,7 @@ function CoffeeListItemComponent({
           <Text>{roastProfile}</Text>
         </View>
       </View>
-      <Pressable onPress={handleDelete}>
-        <MaterialIcons name="delete-outline" size={24} color="black" />
-      </Pressable>
+      <DeleteButton onPress={handleDelete} />
     </View>
   );
 }

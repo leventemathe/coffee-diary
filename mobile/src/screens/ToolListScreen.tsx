@@ -3,38 +3,49 @@ import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
 import { Button } from "@/components/Button";
+import { DeleteButton } from "@/components/DeleteButton";
 import { Loading } from "@/components/Loading";
+import { useDeleteCoffeeMaker } from "@/mutations/coffeeMaker";
+import { useDeleteGrinder } from "@/mutations/grinder";
 import { toolRoutes } from "@/navigation/routes";
 import { useCoffeeMakers } from "@/queries/coffeeMaker";
 import { useGrinders } from "@/queries/grinder";
 
 type ToolListItem = {
+  id: number;
   name: string;
   description?: string;
 };
 
 type ToolListItemProps = ToolListItem & {
   isLast: boolean;
+  handleDelete: (id: number) => Promise<void>;
 };
 
 function ToolListItemComponent({
+  id,
   name,
   description,
   isLast,
+  handleDelete,
 }: ToolListItemProps) {
   return (
     <View style={{ ...styles.listItem, borderBottomWidth: isLast ? 0 : 1 }}>
-      <Text style={styles.listItemName}>{name}</Text>
-      <Text>{description}</Text>
+      <View style={styles.listItemContent}>
+        <Text style={styles.listItemName}>{name}</Text>
+        <Text>{description}</Text>
+      </View>
+      <DeleteButton onPress={() => handleDelete(id)} />
     </View>
   );
 }
 
 type ToolListListProps = {
   toolListItems: ToolListItem[];
+  handleDelete: (id: number) => Promise<void>;
 };
 
-function ToolList({ toolListItems }: ToolListListProps) {
+function ToolList({ toolListItems, handleDelete }: ToolListListProps) {
   return (
     <FlatList
       data={toolListItems}
@@ -42,6 +53,7 @@ function ToolList({ toolListItems }: ToolListListProps) {
         <ToolListItemComponent
           {...item}
           isLast={index === toolListItems.length - 1}
+          handleDelete={handleDelete}
         />
       )}
     />
@@ -49,8 +61,39 @@ function ToolList({ toolListItems }: ToolListListProps) {
 }
 
 export function ToolListScreen({ navigation }: BottomTabBarProps) {
-  const { data: coffeeMakers, error: coffeeMakersError } = useCoffeeMakers();
-  const { data: grinders, error: grindersError } = useGrinders();
+  const {
+    data: coffeeMakers,
+    error: coffeeMakersError,
+    refetch: refetchCoffeeMakers,
+  } = useCoffeeMakers();
+  const {
+    data: grinders,
+    error: grindersError,
+    refetch: refetchGrinders,
+  } = useGrinders();
+
+  const { mutateAsync: deleteCoffeeMaker } = useDeleteCoffeeMaker();
+  const { mutateAsync: deleteGrinder } = useDeleteGrinder();
+
+  async function handleDeleteCoffeeMaker(id: number) {
+    try {
+      await deleteCoffeeMaker(id);
+      await refetchCoffeeMakers();
+    } catch (e) {
+      // TODO
+      console.log("Deleting coffee maker failed: ", e);
+    }
+  }
+
+  async function handleDeleteGrinder(id: number) {
+    try {
+      await deleteGrinder(id);
+      await refetchGrinders();
+    } catch (e) {
+      // TODO
+      console.log("Deleting grinder failed: ", e);
+    }
+  }
 
   if (coffeeMakersError) {
     // TODO
@@ -80,13 +123,19 @@ export function ToolListScreen({ navigation }: BottomTabBarProps) {
         {coffeeMakers.length > 0 && (
           <>
             <Text style={styles.title}>Coffee Makers</Text>
-            <ToolList toolListItems={coffeeMakers} />
+            <ToolList
+              toolListItems={coffeeMakers}
+              handleDelete={handleDeleteCoffeeMaker}
+            />
           </>
         )}
         {grinders.length > 0 && (
           <>
             <Text style={styles.title}>Grinders</Text>
-            <ToolList toolListItems={grinders} />
+            <ToolList
+              toolListItems={grinders}
+              handleDelete={handleDeleteGrinder}
+            />
           </>
         )}
       </View>
@@ -98,12 +147,10 @@ export function ToolListScreen({ navigation }: BottomTabBarProps) {
 
 const styles = StyleSheet.create({
   view: {
-    width: "100%",
     padding: 12,
     gap: 6,
   },
   buttons: {
-    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 12,
@@ -117,6 +164,11 @@ const styles = StyleSheet.create({
     borderBottomColor: "lightgrey",
     borderBottomWidth: 1,
     paddingVertical: 12,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  listItemContent: {
     gap: 4,
   },
   listItemName: {
