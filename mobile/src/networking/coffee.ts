@@ -17,3 +17,10 @@ export async function getCoffees(): Promise<Coffee[]> {
   const response = await fetch(endpoints.coffee);
   return response.json();
 }
+
+export async function deleteCoffee(id: number): Promise<number> {
+  const response = await fetch(`${endpoints.coffee}/${id}`, {
+    method: "DELETE",
+  });
+  return response.json();
+}

@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Text } from "react-native";
 
 import { Button } from "@/components/Button";
+import { ErrorText } from "@/components/ErrorText";
 import { Form, FormRow } from "@/components/Form";
 import { Select } from "@/components/Select";
 import { TextInput } from "@/components/TextInput";
@@ -17,11 +18,7 @@ export function NewCoffeeScreen({ navigation }: BottomTabBarProps) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateCoffee>({
-    defaultValues: {
-      name: "",
-    },
-  });
+  } = useForm<CreateCoffee>();
 
   const { mutateAsync: createCoffee } = useCreateCoffee();
   const { refetch: refetchCoffees } = useCoffees();
@@ -37,6 +34,8 @@ export function NewCoffeeScreen({ navigation }: BottomTabBarProps) {
     }
   }
 
+  console.log("errors: ", errors);
+
   return (
     <Form>
       <FormRow>
@@ -44,6 +43,9 @@ export function NewCoffeeScreen({ navigation }: BottomTabBarProps) {
         <Controller
           name="name"
           control={control}
+          rules={{
+            required: true,
+          }}
           render={({ field: { onChange, value } }) => (
             <TextInput
               placeholder="Required"
@@ -52,7 +54,7 @@ export function NewCoffeeScreen({ navigation }: BottomTabBarProps) {
             />
           )}
         />
-        {errors.name && <Text>Name is required.</Text>}
+        {errors.name && <ErrorText>Name is required.</ErrorText>}
       </FormRow>
       <FormRow>
         <Text>Description:</Text>

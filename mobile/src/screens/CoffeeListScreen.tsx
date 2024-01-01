@@ -1,11 +1,14 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 
 import { Loading } from "@/components/Loading";
+import { useDeleteCoffee } from "@/mutations/coffee";
 import { useCoffees } from "@/queries/coffee";
 import { getRoastLevelTitle } from "@/utils/roastLevel";
 import { getRoastProfileTitle } from "@/utils/roastProfile";
 
 type CoffeeListItemProps = {
+  id: number;
   name: string;
   region?: string;
   roastLevel?: string;
@@ -13,19 +16,38 @@ type CoffeeListItemProps = {
 };
 
 function CoffeeListItem({
+  id,
   name,
   region,
   roastLevel,
   roastProfile,
 }: CoffeeListItemProps) {
+  const { mutateAsync } = useDeleteCoffee(id);
+  const { refetch: refetchCoffees } = useCoffees();
+
+  async function handleDelete() {
+    try {
+      await mutateAsync();
+      await refetchCoffees();
+    } catch (e) {
+      // TODO
+      console.log("Deleting coffee failed: ", e);
+    }
+  }
+
   return (
     <View style={styles.listItem}>
-      <Text style={styles.listItemName}>{name}</Text>
-      <View style={styles.listItemDescription}>
-        <Text>{region}</Text>
-        <Text>{roastLevel}</Text>
-        <Text>{roastProfile}</Text>
+      <View style={styles.listItemContent}>
+        <Text style={styles.listItemName}>{name}</Text>
+        <View style={styles.listItemDescription}>
+          <Text>{region}</Text>
+          <Text>{roastLevel}</Text>
+          <Text>{roastProfile}</Text>
+        </View>
       </View>
+      <Pressable onPress={handleDelete}>
+        <MaterialIcons name="delete-outline" size={24} color="black" />
+      </Pressable>
     </View>
   );
 }
@@ -40,6 +62,7 @@ export function CoffeeListScreen() {
 
   if (isSuccess) {
     const listItems: CoffeeListItemProps[] = coffees.map((coffee) => ({
+      id: coffee.id,
       name: coffee.name,
       region: coffee.region,
       roastLevel: getRoastLevelTitle(coffee.roastLevel),
@@ -64,9 +87,14 @@ export function CoffeeListScreen() {
 const styles = StyleSheet.create({
   listItem: {
     padding: 12,
-    gap: 4,
     borderBottomColor: "lightgrey",
     borderBottomWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  listItemContent: {
+    gap: 4,
   },
   listItemName: {
     fontWeight: "bold",
