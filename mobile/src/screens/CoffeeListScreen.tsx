@@ -1,16 +1,31 @@
-import { FlatList, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 
 import { Loading } from "@/components/Loading";
 import { useCoffees } from "@/queries/coffee";
+import { getRoastLevelTitle } from "@/utils/roastLevel";
+import { getRoastProfileTitle } from "@/utils/roastProfile";
 
 type CoffeeListItemProps = {
   name: string;
+  region?: string;
+  roastLevel?: string;
+  roastProfile?: string;
 };
 
-function CoffeeListItem({ name }: CoffeeListItemProps) {
+function CoffeeListItem({
+  name,
+  region,
+  roastLevel,
+  roastProfile,
+}: CoffeeListItemProps) {
   return (
-    <View>
-      <Text>{name}</Text>
+    <View style={styles.listItem}>
+      <Text style={styles.listItemName}>{name}</Text>
+      <View style={styles.listItemDescription}>
+        <Text>{region}</Text>
+        <Text>{roastLevel}</Text>
+        <Text>{roastProfile}</Text>
+      </View>
     </View>
   );
 }
@@ -18,20 +33,25 @@ function CoffeeListItem({ name }: CoffeeListItemProps) {
 export function CoffeeListScreen() {
   const { data: coffees, error, isSuccess } = useCoffees();
 
-  console.log("coffees: ", coffees);
-
   if (error) {
     // TODO
     console.error("Fetching coffees failed: ", error);
   }
 
   if (isSuccess) {
+    const listItems: CoffeeListItemProps[] = coffees.map((coffee) => ({
+      name: coffee.name,
+      region: coffee.region,
+      roastLevel: getRoastLevelTitle(coffee.roastLevel),
+      roastProfile: getRoastProfileTitle(coffee.roastProfile),
+    }));
+
     return (
       <>
         <View>
           <FlatList
-            data={coffees}
-            renderItem={({ item }) => <CoffeeListItem name={item.name} />}
+            data={listItems}
+            renderItem={({ item }) => <CoffeeListItem {...item} />}
           />
         </View>
       </>
@@ -40,3 +60,19 @@ export function CoffeeListScreen() {
 
   return <Loading />;
 }
+
+const styles = StyleSheet.create({
+  listItem: {
+    padding: 12,
+    gap: 4,
+    borderBottomColor: "lightgrey",
+    borderBottomWidth: 1,
+  },
+  listItemName: {
+    fontWeight: "bold",
+  },
+  listItemDescription: {
+    flexDirection: "row",
+    gap: 8,
+  },
+});

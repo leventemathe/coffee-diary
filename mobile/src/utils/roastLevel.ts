@@ -6,8 +6,8 @@ const roastLevelMapping: Record<RoastLevel, string> = {
   dark_roast: "Dark Roast",
 };
 
-export function getRoastLevelTitle(level: RoastLevel) {
-  return roastLevelMapping[level];
+export function getRoastLevelTitle(level?: RoastLevel) {
+  return level ? roastLevelMapping[level] : undefined;
 }
 
 export function getAllRoastLevels() {

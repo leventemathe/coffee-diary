@@ -6,8 +6,8 @@ const roastProfileMapping: Record<RoastProfile, string> = {
   moka: "Moka",
 };
 
-export function getRoastProfileTitle(level: RoastProfile) {
-  return roastProfileMapping[level];
+export function getRoastProfileTitle(level?: RoastProfile) {
+  return level ? roastProfileMapping[level] : undefined;
 }
 
 export function getAllRoastProfiles() {
