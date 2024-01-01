@@ -7,7 +7,7 @@ import { useCoffees } from "@/queries/coffee";
 import { getRoastLevelTitle } from "@/utils/roastLevel";
 import { getRoastProfileTitle } from "@/utils/roastProfile";
 
-type CoffeeListItemProps = {
+type CoffeeListItem = {
   id: number;
   name: string;
   region?: string;
@@ -15,12 +15,17 @@ type CoffeeListItemProps = {
   roastProfile?: string;
 };
 
-function CoffeeListItem({
+type CoffeeListItemProps = CoffeeListItem & {
+  isLast: boolean;
+};
+
+function CoffeeListItemComponent({
   id,
   name,
   region,
   roastLevel,
   roastProfile,
+  isLast,
 }: CoffeeListItemProps) {
   const { mutateAsync } = useDeleteCoffee(id);
   const { refetch: refetchCoffees } = useCoffees();
@@ -36,7 +41,7 @@ function CoffeeListItem({
   }
 
   return (
-    <View style={styles.listItem}>
+    <View style={{ ...styles.listItem, borderBottomWidth: isLast ? 0 : 1 }}>
       <View style={styles.listItemContent}>
         <Text style={styles.listItemName}>{name}</Text>
         <View style={styles.listItemDescription}>
@@ -61,7 +66,7 @@ export function CoffeeListScreen() {
   }
 
   if (isSuccess) {
-    const listItems: CoffeeListItemProps[] = coffees.map((coffee) => ({
+    const listItems: CoffeeListItem[] = coffees.map((coffee) => ({
       id: coffee.id,
       name: coffee.name,
       region: coffee.region,
@@ -74,7 +79,12 @@ export function CoffeeListScreen() {
         <FlatList
           style={styles.list}
           data={listItems}
-          renderItem={({ item }) => <CoffeeListItem {...item} />}
+          renderItem={({ item, index }) => (
+            <CoffeeListItemComponent
+              {...item}
+              isLast={index === listItems.length - 1}
+            />
+          )}
         />
       </>
     );

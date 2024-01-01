@@ -8,14 +8,22 @@ import { toolRoutes } from "@/navigation/routes";
 import { useCoffeeMakers } from "@/queries/coffeeMaker";
 import { useGrinders } from "@/queries/grinder";
 
-type ToolListItemProps = {
+type ToolListItem = {
   name: string;
   description?: string;
 };
 
-function ToolListItem({ name, description }: ToolListItemProps) {
+type ToolListItemProps = ToolListItem & {
+  isLast: boolean;
+};
+
+function ToolListItemComponent({
+  name,
+  description,
+  isLast,
+}: ToolListItemProps) {
   return (
-    <View style={styles.listItem}>
+    <View style={{ ...styles.listItem, borderBottomWidth: isLast ? 0 : 1 }}>
       <Text style={styles.listItemName}>{name}</Text>
       <Text>{description}</Text>
     </View>
@@ -23,14 +31,19 @@ function ToolListItem({ name, description }: ToolListItemProps) {
 }
 
 type ToolListListProps = {
-  toolListItems: ToolListItemProps[];
+  toolListItems: ToolListItem[];
 };
 
 function ToolList({ toolListItems }: ToolListListProps) {
   return (
     <FlatList
       data={toolListItems}
-      renderItem={({ item }) => <ToolListItem {...item} />}
+      renderItem={({ item, index }) => (
+        <ToolListItemComponent
+          {...item}
+          isLast={index === toolListItems.length - 1}
+        />
+      )}
     />
   );
 }
