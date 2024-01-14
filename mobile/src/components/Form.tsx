@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   formRow: {
     gap: 12,
     flexDirection: "row",
+    alignItems: "center",
   },
   formCol: {
     flex: 1,

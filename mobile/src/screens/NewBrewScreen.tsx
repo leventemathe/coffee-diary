@@ -5,7 +5,7 @@ import {
   FieldPath,
   FieldErrors,
 } from "react-hook-form";
-import { Text } from "react-native";
+import { Switch, Text } from "react-native";
 
 import { Button } from "@/components/Button";
 import { ErrorText } from "@/components/ErrorText";
@@ -117,6 +117,16 @@ export function NewBrewScreen() {
           title="Temperature"
           control={control}
           errors={errors}
+        />
+      </FormRow>
+      <FormRow>
+        <Text>Pre infusion:</Text>
+        <Controller
+          name="preInfusion"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Switch value={value} onValueChange={onChange} />
+          )}
         />
       </FormRow>
       <FormRow>
