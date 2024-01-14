@@ -4,7 +4,7 @@ import { Text } from "react-native";
 import { Button } from "./Button";
 import { ErrorText } from "./ErrorText";
 import { Form, FormRow } from "./Form";
-import { TextInput } from "./TextInput";
+import { TextInput } from "./Input";
 
 export type ToolFormValues = {
   name: string;

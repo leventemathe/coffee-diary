@@ -3,6 +3,8 @@ import { endpoints } from "./endpoints";
 import { CoffeeMaker, CreateCoffeeMaker } from "@/types/CoffeeMaker";
 
 export async function createCoffeeMaker(
+  // eslint auto save bug
+  // eslint-disable-next-line prettier/prettier
   coffeeMaker: CreateCoffeeMaker
 ): Promise<number> {
   const response = await fetch(endpoints.coffeeMaker, {
