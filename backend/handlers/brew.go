@@ -10,7 +10,7 @@ import (
 func (c *container) GetBrews(ctx echo.Context) error {
 	brews := []models.Brew{}
 
-	result := c.db.Find(&brews)
+	result := c.db.Joins("Coffee").Joins("CoffeeMaker").Joins("Grinder").Find(&brews)
 	if result.Error != nil {
 		return result.Error
 	}
