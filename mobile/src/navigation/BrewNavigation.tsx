@@ -26,6 +26,7 @@ export function BrewNavigation() {
       />
       <BrewStack.Screen
         name={brewRoutes.newBrew}
+        // @ts-ignore
         component={NewBrewScreen}
         options={{
           title: "New Brew",

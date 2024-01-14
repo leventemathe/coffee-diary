@@ -1,10 +1,5 @@
-import {
-  useForm,
-  Controller,
-  Control,
-  FieldPath,
-  FieldErrors,
-} from "react-hook-form";
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { useForm, Controller, Control, FieldPath } from "react-hook-form";
 import { Switch, Text, View } from "react-native";
 import StarRating from "react-native-star-rating-widget";
 
@@ -12,13 +7,14 @@ import { Button } from "@/components/Button";
 import { ErrorText } from "@/components/ErrorText";
 import { Form, FormCol, FormRow } from "@/components/Form";
 import { NumberInput, TextInput } from "@/components/Input";
+import { useCreateBrew } from "@/mutations/brew";
+import { useBrews } from "@/queries/brew";
 import { CreateBrew } from "@/types/Brew";
 
 type BrewNumberColumnProps = {
   name: FieldPath<CreateBrew>;
   title: string;
   control: Control<CreateBrew>;
-  errors: FieldErrors<CreateBrew>;
   required?: boolean;
 };
 
@@ -26,7 +22,6 @@ function BrewNumberColumn({
   name,
   title,
   control,
-  errors,
   required,
 }: BrewNumberColumnProps) {
   return (
@@ -36,7 +31,7 @@ function BrewNumberColumn({
         name={name}
         control={control}
         rules={{
-          required,
+          required: required ? `${title} is required` : false,
         }}
         render={({ field: { onChange, value } }) => {
           if (typeof value !== "number" && value !== undefined) {
@@ -52,12 +47,11 @@ function BrewNumberColumn({
           );
         }}
       />
-      {errors.input && <ErrorText>{title} is required.</ErrorText>}
     </FormCol>
   );
 }
 
-export function NewBrewScreen() {
+export function NewBrewScreen({ navigation }: BottomTabBarProps) {
   const {
     control,
     handleSubmit,
@@ -72,7 +66,22 @@ export function NewBrewScreen() {
     },
   });
 
-  async function onSubmit() {}
+  const errorsArray = Object.values(errors).map((err) => err.message);
+
+  const { mutateAsync: createBrew } = useCreateBrew();
+  const { refetch: refetchBrews } = useBrews();
+
+  async function onSubmit(data: CreateBrew) {
+    console.log("data: ", data);
+    try {
+      await createBrew(data);
+      navigation.goBack();
+      await refetchBrews();
+    } catch (error) {
+      // TODO
+      console.log("Creating brew failed: ", error);
+    }
+  }
 
   return (
     <Form>
@@ -81,43 +90,28 @@ export function NewBrewScreen() {
           name="input"
           title="Input"
           control={control}
-          errors={errors}
           required
         />
         <BrewNumberColumn
           name="output"
           title="Output"
           control={control}
-          errors={errors}
           required
         />
-        <BrewNumberColumn
-          name="time"
-          title="Time"
-          control={control}
-          errors={errors}
-          required
-        />
+        <BrewNumberColumn name="time" title="Time" control={control} required />
       </FormRow>
       <FormRow>
         <BrewNumberColumn
           name="grindSetting"
           title="Grind Setting"
           control={control}
-          errors={errors}
           required
         />
-        <BrewNumberColumn
-          name="pressure"
-          title="Pressure"
-          control={control}
-          errors={errors}
-        />
+        <BrewNumberColumn name="pressure" title="Pressure" control={control} />
         <BrewNumberColumn
           name="temperature"
           title="Temperature"
           control={control}
-          errors={errors}
         />
       </FormRow>
       <FormRow>
@@ -140,14 +134,14 @@ export function NewBrewScreen() {
           name="rating"
           control={control}
           rules={{
-            required: true,
+            required: "Rating is required",
           }}
           render={({ field: { onChange, value } }) => (
             <StarRating rating={value} onChange={onChange} />
           )}
         />
-        {errors.input && <ErrorText>Rating is required.</ErrorText>}
       </FormRow>
+
       <FormRow>
         <FormCol>
           <Text>Other notes:</Text>
@@ -159,6 +153,11 @@ export function NewBrewScreen() {
             )}
           />
         </FormCol>
+      </FormRow>
+      <FormRow>
+        {errorsArray && errorsArray.length > 0 && (
+          <ErrorText>{errorsArray[errorsArray.length - 1]}</ErrorText>
+        )}
       </FormRow>
       <Button text="Create" onPress={handleSubmit(onSubmit)} />
     </Form>

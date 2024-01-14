@@ -13,7 +13,7 @@ export function TextInput(props: TextInputProps) {
 
 type NumberInputProps = Omit<TextInputProps, "value" | "onChange"> & {
   value?: number;
-  onChange: (value: number) => void;
+  onChange: (value?: number) => void;
 };
 
 export function NumberInput({ value, onChange, ...props }: NumberInputProps) {
@@ -24,6 +24,10 @@ export function NumberInput({ value, onChange, ...props }: NumberInputProps) {
     if (num !== undefined) {
       onChange(num);
       setDisplayValue(String(num));
+    }
+
+    if (str === "") {
+      onChange(undefined);
     }
 
     if (getNumberyString(str) !== undefined) {
