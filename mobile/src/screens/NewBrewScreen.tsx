@@ -1,11 +1,60 @@
-import { useForm, Controller } from "react-hook-form";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  useForm,
+  Controller,
+  Control,
+  FieldPath,
+  FieldErrors,
+} from "react-hook-form";
+import { Text } from "react-native";
 
 import { Button } from "@/components/Button";
 import { ErrorText } from "@/components/ErrorText";
-import { Form, FormRow } from "@/components/Form";
-import { NumberInput } from "@/components/Input";
+import { Form, FormCol, FormRow } from "@/components/Form";
+import { NumberInput, TextInput } from "@/components/Input";
 import { CreateBrew } from "@/types/Brew";
+
+type BrewNumberColumnProps = {
+  name: FieldPath<CreateBrew>;
+  title: string;
+  control: Control<CreateBrew>;
+  errors: FieldErrors<CreateBrew>;
+  required?: boolean;
+};
+
+function BrewNumberColumn({
+  name,
+  title,
+  control,
+  errors,
+  required,
+}: BrewNumberColumnProps) {
+  return (
+    <FormCol>
+      <Text>{title}:</Text>
+      <Controller
+        name={name}
+        control={control}
+        rules={{
+          required,
+        }}
+        render={({ field: { onChange, value } }) => {
+          if (typeof value !== "number" && value !== undefined) {
+            throw new Error("Only use BrewNumberColumn for numbers");
+          }
+          return (
+            <NumberInput
+              keyboardType="numeric"
+              placeholder={required ? "Required" : ""}
+              value={value}
+              onChange={onChange}
+            />
+          );
+        }}
+      />
+      {errors.input && <ErrorText>{title} is required.</ErrorText>}
+    </FormCol>
+  );
+}
 
 export function NewBrewScreen() {
   const {
@@ -25,35 +74,64 @@ export function NewBrewScreen() {
   async function onSubmit() {}
 
   return (
-    <View style={styles.view}>
-      <Form>
-        <FormRow>
-          <Text>Input:</Text>
+    <Form>
+      <FormRow>
+        <BrewNumberColumn
+          name="input"
+          title="Input"
+          control={control}
+          errors={errors}
+          required
+        />
+        <BrewNumberColumn
+          name="output"
+          title="Output"
+          control={control}
+          errors={errors}
+          required
+        />
+        <BrewNumberColumn
+          name="time"
+          title="Time"
+          control={control}
+          errors={errors}
+          required
+        />
+      </FormRow>
+      <FormRow>
+        <BrewNumberColumn
+          name="grindSetting"
+          title="Grind Setting"
+          control={control}
+          errors={errors}
+          required
+        />
+        <BrewNumberColumn
+          name="pressure"
+          title="Pressure"
+          control={control}
+          errors={errors}
+        />
+        <BrewNumberColumn
+          name="temperature"
+          title="Temperature"
+          control={control}
+          errors={errors}
+        />
+      </FormRow>
+      <FormRow>
+        <FormCol>
+          <Text>Other notes:</Text>
           <Controller
-            name="input"
+            name="otherNotes"
             control={control}
-            rules={{
-              required: true,
-            }}
             render={({ field: { onChange, value } }) => (
-              <NumberInput
-                keyboardType="numeric"
-                placeholder="Required"
-                value={value}
-                onChange={onChange}
-              />
+              <TextInput value={value} onChangeText={onChange} />
             )}
           />
-          {errors.input && <ErrorText>Name is required.</ErrorText>}
-        </FormRow>
-        <Button text="Create" onPress={handleSubmit(onSubmit)} />
-      </Form>
-    </View>
+        </FormCol>
+      </FormRow>
+      <Button text="Create" onPress={handleSubmit(onSubmit)} />
+    </Form>
   );
 }
-
-const styles = StyleSheet.create({
-  view: {
-    padding: 12,
-  },
-});

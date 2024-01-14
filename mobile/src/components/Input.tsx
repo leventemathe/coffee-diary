@@ -12,17 +12,16 @@ export function TextInput(props: TextInputProps) {
 }
 
 type NumberInputProps = Omit<TextInputProps, "value" | "onChange"> & {
-  value: number;
+  value?: number;
   onChange: (value: number) => void;
 };
 
 export function NumberInput({ value, onChange, ...props }: NumberInputProps) {
-  const [displayValue, setDisplayValue] = useState(String(value));
+  const [displayValue, setDisplayValue] = useState(String(value ?? ""));
 
   function onChangeText(str: string) {
     const num = getNumber(str);
     if (num !== undefined) {
-      console.log(num);
       onChange(num);
       setDisplayValue(String(num));
     }
@@ -36,6 +35,7 @@ export function NumberInput({ value, onChange, ...props }: NumberInputProps) {
   // https://github.com/facebook/react-native/issues/23578
   return (
     <RNTextInput
+      {...props}
       style={styles.input}
       keyboardType="numeric"
       defaultValue={displayValue}

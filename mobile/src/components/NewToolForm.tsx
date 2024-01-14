@@ -3,7 +3,7 @@ import { Text } from "react-native";
 
 import { Button } from "./Button";
 import { ErrorText } from "./ErrorText";
-import { Form, FormRow } from "./Form";
+import { Form, FormCol, FormRow } from "./Form";
 import { TextInput } from "./Input";
 
 export type ToolFormValues = {
@@ -25,32 +25,36 @@ export function NewToolForm({ onSubmit }: NewToolFormProps) {
   return (
     <Form>
       <FormRow>
-        <Text>Name:</Text>
-        <Controller
-          name="name"
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, value } }) => (
-            <TextInput
-              placeholder="Required"
-              value={value}
-              onChangeText={onChange}
-            />
-          )}
-        />
-        {errors.name && <ErrorText>Name is required.</ErrorText>}
+        <FormCol>
+          <Text>Name:</Text>
+          <Controller
+            name="name"
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                placeholder="Required"
+                value={value}
+                onChangeText={onChange}
+              />
+            )}
+          />
+          {errors.name && <ErrorText>Name is required.</ErrorText>}
+        </FormCol>
       </FormRow>
       <FormRow>
-        <Text>Description:</Text>
-        <Controller
-          name="description"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <TextInput value={value} onChangeText={onChange} />
-          )}
-        />
+        <FormCol>
+          <Text>Description:</Text>
+          <Controller
+            name="description"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextInput value={value} onChangeText={onChange} />
+            )}
+          />
+        </FormCol>
       </FormRow>
       <Button text="Create" onPress={handleSubmit(onSubmit)} />
     </Form>

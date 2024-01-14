@@ -4,7 +4,7 @@ import { Text } from "react-native";
 
 import { Button } from "@/components/Button";
 import { ErrorText } from "@/components/ErrorText";
-import { Form, FormRow } from "@/components/Form";
+import { Form, FormCol, FormRow } from "@/components/Form";
 import { TextInput } from "@/components/Input";
 import { Select } from "@/components/Select";
 import { useCreateCoffee } from "@/mutations/coffee";
@@ -37,78 +37,88 @@ export function NewCoffeeScreen({ navigation }: BottomTabBarProps) {
   return (
     <Form>
       <FormRow>
-        <Text>Name:</Text>
-        <Controller
-          name="name"
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, value } }) => (
-            <TextInput
-              placeholder="Required"
-              value={value}
-              onChangeText={onChange}
-            />
-          )}
-        />
-        {errors.name && <ErrorText>Name is required.</ErrorText>}
+        <FormCol>
+          <Text>Name:</Text>
+          <Controller
+            name="name"
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                placeholder="Required"
+                value={value}
+                onChangeText={onChange}
+              />
+            )}
+          />
+          {errors.name && <ErrorText>Name is required.</ErrorText>}
+        </FormCol>
       </FormRow>
       <FormRow>
-        <Text>Description:</Text>
-        <Controller
-          name="description"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <TextInput value={value} onChangeText={onChange} />
-          )}
-        />
+        <FormCol>
+          <Text>Description:</Text>
+          <Controller
+            name="description"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextInput value={value} onChangeText={onChange} />
+            )}
+          />
+        </FormCol>
       </FormRow>
       <FormRow>
-        <Text>Region:</Text>
-        <Controller
-          name="region"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <TextInput value={value} onChangeText={onChange} />
-          )}
-        />
+        <FormCol>
+          <Text>Region:</Text>
+          <Controller
+            name="region"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextInput value={value} onChangeText={onChange} />
+            )}
+          />
+        </FormCol>
       </FormRow>
       <FormRow>
-        <Text>Roast Level:</Text>
-        <Controller
-          name="roastLevel"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <Select
-              items={getAllRoastLevels()}
-              onValueChange={onChange}
-              value={value}
-              placeholder={{
-                label: "Select (optional)",
-                value: undefined,
-              }}
-            />
-          )}
-        />
+        <FormCol>
+          <Text>Roast Level:</Text>
+          <Controller
+            name="roastLevel"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Select
+                items={getAllRoastLevels()}
+                onValueChange={onChange}
+                value={value}
+                placeholder={{
+                  label: "Select (optional)",
+                  value: undefined,
+                }}
+              />
+            )}
+          />
+        </FormCol>
       </FormRow>
       <FormRow>
-        <Text>Roast Profile:</Text>
-        <Controller
-          name="roastProfile"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <Select
-              items={getAllRoastProfiles()}
-              onValueChange={onChange}
-              value={value}
-              placeholder={{
-                label: "Select (optional)",
-                value: undefined,
-              }}
-            />
-          )}
-        />
+        <FormCol>
+          <Text>Roast Profile:</Text>
+          <Controller
+            name="roastProfile"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Select
+                items={getAllRoastProfiles()}
+                onValueChange={onChange}
+                value={value}
+                placeholder={{
+                  label: "Select (optional)",
+                  value: undefined,
+                }}
+              />
+            )}
+          />
+        </FormCol>
       </FormRow>
       <Button text="Create" onPress={handleSubmit(onSubmit)} />
     </Form>

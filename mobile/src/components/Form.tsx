@@ -9,12 +9,21 @@ export function FormRow({ children }: PropsWithChildren) {
   return <View style={styles.formRow}>{children}</View>;
 }
 
+export function FormCol({ children }: PropsWithChildren) {
+  return <View style={styles.formCol}>{children}</View>;
+}
+
 const styles = StyleSheet.create({
   form: {
     gap: 24,
     margin: 24,
   },
   formRow: {
-    gap: 8,
+    gap: 12,
+    flexDirection: "row",
+  },
+  formCol: {
+    flex: 1,
+    gap: 4,
   },
 });
