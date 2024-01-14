@@ -5,7 +5,8 @@ import {
   FieldPath,
   FieldErrors,
 } from "react-hook-form";
-import { Switch, Text } from "react-native";
+import { Switch, Text, View } from "react-native";
+import StarRating from "react-native-star-rating-widget";
 
 import { Button } from "@/components/Button";
 import { ErrorText } from "@/components/ErrorText";
@@ -128,6 +129,24 @@ export function NewBrewScreen() {
             <Switch value={value} onValueChange={onChange} />
           )}
         />
+        <View
+          style={{
+            height: "100%",
+            borderLeftColor: "lightgrey",
+            borderLeftWidth: 1,
+          }}
+        />
+        <Controller
+          name="rating"
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, value } }) => (
+            <StarRating rating={value} onChange={onChange} />
+          )}
+        />
+        {errors.input && <ErrorText>Rating is required.</ErrorText>}
       </FormRow>
       <FormRow>
         <FormCol>
