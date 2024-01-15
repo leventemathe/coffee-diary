@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
   },
   listItemName: {
     fontWeight: "bold",
+    fontSize: 16,
   },
   listItemDescription: {
     flexDirection: "row",
